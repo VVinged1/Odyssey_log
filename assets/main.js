@@ -24,9 +24,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
-// node_modules/events/events.js
+// ../odyssey-system-main/node_modules/events/events.js
 var require_events = __commonJS({
-  "node_modules/events/events.js"(exports, module) {
+  "../odyssey-system-main/node_modules/events/events.js"(exports, module) {
     "use strict";
     var R = typeof Reflect === "object" ? Reflect : null;
     var ReflectApply = R && typeof R.apply === "function" ? R.apply : function ReflectApply2(target, receiver, args) {
@@ -393,7 +393,7 @@ var require_events = __commonJS({
   }
 });
 
-// node_modules/@owlbear-rodeo/sdk/lib/api/PlayerApi.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/api/PlayerApi.js
 var __awaiter = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve) {
@@ -533,7 +533,7 @@ var PlayerApi = class {
 };
 var PlayerApi_default = PlayerApi;
 
-// node_modules/@owlbear-rodeo/sdk/lib/api/ViewportApi.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/api/ViewportApi.js
 var __awaiter2 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve) {
@@ -632,15 +632,15 @@ var ViewportApi = class {
 };
 var ViewportApi_default = ViewportApi;
 
-// node_modules/@owlbear-rodeo/sdk/lib/messages/Message.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/messages/Message.js
 function isMessage(message) {
   return typeof message.id === "string";
 }
 
-// node_modules/@owlbear-rodeo/sdk/lib/messages/MessageBus.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/messages/MessageBus.js
 var import_events = __toESM(require_events());
 
-// node_modules/uuid/dist/esm-browser/rng.js
+// ../odyssey-system-main/node_modules/uuid/dist/esm-browser/rng.js
 var getRandomValues;
 var rnds8 = new Uint8Array(16);
 function rng() {
@@ -653,7 +653,7 @@ function rng() {
   return getRandomValues(rnds8);
 }
 
-// node_modules/uuid/dist/esm-browser/stringify.js
+// ../odyssey-system-main/node_modules/uuid/dist/esm-browser/stringify.js
 var byteToHex = [];
 for (let i = 0; i < 256; ++i) {
   byteToHex.push((i + 256).toString(16).slice(1));
@@ -662,13 +662,13 @@ function unsafeStringify(arr, offset = 0) {
   return byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]];
 }
 
-// node_modules/uuid/dist/esm-browser/native.js
+// ../odyssey-system-main/node_modules/uuid/dist/esm-browser/native.js
 var randomUUID = typeof crypto !== "undefined" && crypto.randomUUID && crypto.randomUUID.bind(crypto);
 var native_default = {
   randomUUID
 };
 
-// node_modules/uuid/dist/esm-browser/v4.js
+// ../odyssey-system-main/node_modules/uuid/dist/esm-browser/v4.js
 function v4(options, buf, offset) {
   if (native_default.randomUUID && !buf && !options) {
     return native_default.randomUUID();
@@ -688,7 +688,7 @@ function v4(options, buf, offset) {
 }
 var v4_default = v4;
 
-// node_modules/@owlbear-rodeo/sdk/lib/messages/MessageBus.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/messages/MessageBus.js
 var MessageBus = class extends import_events.EventEmitter {
   constructor(origin, roomId) {
     super();
@@ -754,7 +754,7 @@ var MessageBus = class extends import_events.EventEmitter {
 };
 var MessageBus_default = MessageBus;
 
-// node_modules/@owlbear-rodeo/sdk/lib/api/NotificationApi.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/api/NotificationApi.js
 var __awaiter3 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve) {
@@ -800,7 +800,7 @@ var NotificationApi = class {
 };
 var NotificationApi_default = NotificationApi;
 
-// node_modules/@owlbear-rodeo/sdk/lib/api/scene/SceneFogApi.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/api/scene/SceneFogApi.js
 var __awaiter4 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve) {
@@ -881,7 +881,7 @@ var SceneFogApi = class {
 };
 var SceneFogApi_default = SceneFogApi;
 
-// node_modules/@owlbear-rodeo/sdk/lib/api/scene/SceneGridApi.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/api/scene/SceneGridApi.js
 var __awaiter5 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve) {
@@ -1033,7 +1033,7 @@ var SceneGridApi = class {
 };
 var SceneGridApi_default = SceneGridApi;
 
-// node_modules/@owlbear-rodeo/sdk/lib/api/scene/SceneHistoryApi.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/api/scene/SceneHistoryApi.js
 var __awaiter6 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve) {
@@ -1090,7 +1090,7 @@ var SceneHistoryApi = class {
 };
 var SceneHistoryApi_default = SceneHistoryApi;
 
-// node_modules/immer/dist/immer.mjs
+// ../odyssey-system-main/node_modules/immer/dist/immer.mjs
 var NOTHING = Symbol.for("immer-nothing");
 var DRAFTABLE = Symbol.for("immer-draftable");
 var DRAFT_STATE = Symbol.for("immer-state");
@@ -2058,7 +2058,7 @@ var produceWithPatches = /* @__PURE__ */ immer.produceWithPatches.bind(
   immer
 );
 
-// node_modules/@owlbear-rodeo/sdk/lib/api/scene/SceneItemsApi.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/api/scene/SceneItemsApi.js
 var __awaiter7 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve) {
@@ -2179,7 +2179,7 @@ var SceneItemsApi = class {
 };
 var SceneItemsApi_default = SceneItemsApi;
 
-// node_modules/@owlbear-rodeo/sdk/lib/api/scene/SceneLocalApi.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/api/scene/SceneLocalApi.js
 var __awaiter8 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve) {
@@ -2301,7 +2301,7 @@ var SceneLocalApi = class {
 };
 var SceneLocalApi_default = SceneLocalApi;
 
-// node_modules/@owlbear-rodeo/sdk/lib/api/scene/SceneApi.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/api/scene/SceneApi.js
 var __awaiter9 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve) {
@@ -2380,7 +2380,7 @@ var SceneApi = class {
 };
 var SceneApi_default = SceneApi;
 
-// node_modules/@owlbear-rodeo/sdk/lib/common/normalize.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/common/normalize.js
 function normalizeUrl(url) {
   return url.startsWith("http") ? url : `${window.location.origin}${url}`;
 }
@@ -2391,7 +2391,7 @@ function normalizeUrlObject(urlObject) {
   return Object.assign(Object.assign({}, urlObject), { url: normalizeUrl(urlObject.url) });
 }
 
-// node_modules/@owlbear-rodeo/sdk/lib/api/ContextMenuApi.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/api/ContextMenuApi.js
 var __awaiter10 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve) {
@@ -2452,7 +2452,7 @@ var ContextMenuApi = class {
 };
 var ContextMenuApi_default = ContextMenuApi;
 
-// node_modules/@owlbear-rodeo/sdk/lib/api/ToolApi.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/api/ToolApi.js
 var __awaiter11 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve) {
@@ -2788,7 +2788,7 @@ var ToolApi = class {
 };
 var ToolApi_default = ToolApi;
 
-// node_modules/@owlbear-rodeo/sdk/lib/api/PopoverApi.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/api/PopoverApi.js
 var __awaiter12 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve) {
@@ -2855,7 +2855,7 @@ var PopoverApi = class {
 };
 var PopoverApi_default = PopoverApi;
 
-// node_modules/@owlbear-rodeo/sdk/lib/api/ModalApi.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/api/ModalApi.js
 var __awaiter13 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve) {
@@ -2900,7 +2900,7 @@ var ModalApi = class {
 };
 var ModalApi_default = ModalApi;
 
-// node_modules/@owlbear-rodeo/sdk/lib/api/ActionApi.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/api/ActionApi.js
 var __awaiter14 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve) {
@@ -3033,7 +3033,7 @@ var ActionApi = class {
 };
 var ActionApi_default = ActionApi;
 
-// node_modules/@owlbear-rodeo/sdk/lib/api/InteractionApi.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/api/InteractionApi.js
 var __awaiter15 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve) {
@@ -3088,7 +3088,7 @@ var InteractionApi = class {
 };
 var InteractionApi_default = InteractionApi;
 
-// node_modules/@owlbear-rodeo/sdk/lib/api/PartyApi.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/api/PartyApi.js
 var __awaiter16 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve) {
@@ -3140,7 +3140,7 @@ var PartyApi = class {
 };
 var PartyApi_default = PartyApi;
 
-// node_modules/@owlbear-rodeo/sdk/lib/api/RoomApi.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/api/RoomApi.js
 var __awaiter17 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve) {
@@ -3217,7 +3217,7 @@ var RoomApi = class {
 };
 var RoomApi_default = RoomApi;
 
-// node_modules/@owlbear-rodeo/sdk/lib/api/ThemeApi.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/api/ThemeApi.js
 var __awaiter18 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve) {
@@ -3269,7 +3269,7 @@ var ThemeApi = class {
 };
 var ThemeApi_default = ThemeApi;
 
-// node_modules/@owlbear-rodeo/sdk/lib/api/AssetsApi.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/api/AssetsApi.js
 var __awaiter19 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve) {
@@ -3332,7 +3332,7 @@ var AssetsApi = class {
 };
 var AssetsApi_default = AssetsApi;
 
-// node_modules/@owlbear-rodeo/sdk/lib/api/BroadcastApi.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/api/BroadcastApi.js
 var __awaiter20 = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve) {
@@ -3384,7 +3384,7 @@ var BroadcastApi = class {
 };
 var BroadcastApi_default = BroadcastApi;
 
-// node_modules/js-base64/base64.mjs
+// ../odyssey-system-main/node_modules/js-base64/base64.mjs
 var _hasBuffer = typeof Buffer === "function";
 var _TD = typeof TextDecoder === "function" ? new TextDecoder() : void 0;
 var _TE = typeof TextEncoder === "function" ? new TextEncoder() : void 0;
@@ -3437,7 +3437,7 @@ var _decode = _hasBuffer ? (a) => Buffer.from(a, "base64").toString("utf8") : _T
 var _unURI = (a) => _tidyB64(a.replace(/[-_]/g, (m0) => m0 == "-" ? "+" : "/"));
 var decode = (src) => _decode(_unURI(src));
 
-// node_modules/@owlbear-rodeo/sdk/lib/common/getDetails.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/common/getDetails.js
 function getDetails() {
   const urlSearchParams = new URLSearchParams(window.location.search);
   const ref = urlSearchParams.get("obrref");
@@ -3454,7 +3454,7 @@ function getDetails() {
   return { origin, roomId };
 }
 
-// node_modules/@owlbear-rodeo/sdk/lib/types/items/Path.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/types/items/Path.js
 var Command;
 (function(Command2) {
   Command2[Command2["MOVE"] = 0] = "MOVE";
@@ -3465,7 +3465,7 @@ var Command;
   Command2[Command2["CLOSE"] = 5] = "CLOSE";
 })(Command || (Command = {}));
 
-// node_modules/@owlbear-rodeo/sdk/lib/index.js
+// ../odyssey-system-main/node_modules/@owlbear-rodeo/sdk/lib/index.js
 var details = getDetails();
 var messageBus = new MessageBus_default(details.origin, details.roomId);
 var viewportApi = new ViewportApi_default(messageBus);
@@ -3517,10 +3517,11 @@ var lib_default = OBR;
 // main.js
 var DEBUG_LOG_KEY = "com.codex.body-hp/debugLog";
 var DEBUG_BROADCAST_CHANNEL = "com.codex.body-hp/debug";
-var ENTRY_LIMIT = 60;
+var ENTRY_LIMIT = 50;
 var POLL_INTERVAL_MS = 2e3;
 var ui = {
   refreshBtn: document.getElementById("refreshBtn"),
+  clearBtn: document.getElementById("clearBtn"),
   liveBadge: document.getElementById("liveBadge"),
   entryCount: document.getElementById("entryCount"),
   statusBox: document.getElementById("statusBox"),
@@ -3622,7 +3623,7 @@ function haveEntriesChanged(nextEntries) {
 async function refreshFromRoom(label = "Room refresh", options = {}) {
   const { quiet = false } = options;
   const metadata = await lib_default.room.getMetadata();
-  const nextEntries = mergeDebugEntries(metadata?.[DEBUG_LOG_KEY], debugEntries);
+  const nextEntries = sanitizeDebugEntries(metadata?.[DEBUG_LOG_KEY]);
   const changed = haveEntriesChanged(nextEntries);
   debugEntries = nextEntries;
   if (quiet && !changed) return;
@@ -3630,12 +3631,37 @@ async function refreshFromRoom(label = "Room refresh", options = {}) {
   setStatus("Connected to the shared Odyssey combat log.");
   renderEntries();
 }
+async function clearSharedLog() {
+  if (viewerRole !== "GM") {
+    setStatus("Only the GM can clear the shared combat log.");
+    return;
+  }
+  debugEntries = [];
+  setSyncState("Log cleared");
+  setStatus("Shared Odyssey combat log cleared.");
+  renderEntries();
+  await lib_default.broadcast.sendMessage(
+    DEBUG_BROADCAST_CHANNEL,
+    { type: "debug-clear" },
+    { destination: "ALL" }
+  );
+  await lib_default.room.setMetadata({
+    [DEBUG_LOG_KEY]: []
+  });
+}
 function bindUiEvents() {
   ui.refreshBtn?.addEventListener("click", () => {
     setStatus("Refreshing combat log...");
     void refreshFromRoom("Manual refresh").catch((error) => {
       console.warn("[Odyssey Combat Log] Unable to refresh log", error);
       setStatus(error?.message ?? "Unable to refresh combat log.");
+    });
+  });
+  ui.clearBtn?.addEventListener("click", () => {
+    setStatus("Clearing shared combat log...");
+    void clearSharedLog().catch((error) => {
+      console.warn("[Odyssey Combat Log] Unable to clear log", error);
+      setStatus(error?.message ?? "Unable to clear shared combat log.");
     });
   });
 }
@@ -3658,6 +3684,13 @@ lib_default.onReady(async () => {
     lib_default.broadcast.onMessage(DEBUG_BROADCAST_CHANNEL, (event) => {
       const payload = event?.data;
       if (!payload || typeof payload !== "object") return;
+      if (payload.type === "debug-clear") {
+        debugEntries = [];
+        setSyncState("Live clear");
+        setStatus("Shared combat log cleared.");
+        renderEntries();
+        return;
+      }
       if (payload.type !== "debug-entry") return;
       debugEntries = mergeDebugEntries([payload.entry], debugEntries);
       setSyncState("Live event");
@@ -3665,7 +3698,7 @@ lib_default.onReady(async () => {
       renderEntries();
     });
     lib_default.room.onMetadataChange((metadata) => {
-      debugEntries = mergeDebugEntries(metadata?.[DEBUG_LOG_KEY], debugEntries);
+      debugEntries = sanitizeDebugEntries(metadata?.[DEBUG_LOG_KEY]);
       setSyncState("Room update");
       setStatus("Room log updated.");
       renderEntries();

@@ -3,11 +3,12 @@ import OBR from "@owlbear-rodeo/sdk";
 // Shared keys with the main Odyssey System extension.
 const DEBUG_LOG_KEY = "com.codex.body-hp/debugLog";
 const DEBUG_BROADCAST_CHANNEL = "com.codex.body-hp/debug";
-const ENTRY_LIMIT = 60;
+const ENTRY_LIMIT = 50;
 const POLL_INTERVAL_MS = 2000;
 
 const ui = {
   refreshBtn: document.getElementById("refreshBtn"),
+  clearBtn: document.getElementById("clearBtn"),
   liveBadge: document.getElementById("liveBadge"),
   entryCount: document.getElementById("entryCount"),
   statusBox: document.getElementById("statusBox"),
@@ -137,7 +138,7 @@ function haveEntriesChanged(nextEntries) {
 async function refreshFromRoom(label = "Room refresh", options = {}) {
   const { quiet = false } = options;
   const metadata = await OBR.room.getMetadata();
-  const nextEntries = mergeDebugEntries(metadata?.[DEBUG_LOG_KEY], debugEntries);
+  const nextEntries = sanitizeDebugEntries(metadata?.[DEBUG_LOG_KEY]);
   const changed = haveEntriesChanged(nextEntries);
   debugEntries = nextEntries;
 
@@ -148,12 +149,41 @@ async function refreshFromRoom(label = "Room refresh", options = {}) {
   renderEntries();
 }
 
+async function clearSharedLog() {
+  if (viewerRole !== "GM") {
+    setStatus("Only the GM can clear the shared combat log.");
+    return;
+  }
+
+  debugEntries = [];
+  setSyncState("Log cleared");
+  setStatus("Shared Odyssey combat log cleared.");
+  renderEntries();
+
+  await OBR.broadcast.sendMessage(
+    DEBUG_BROADCAST_CHANNEL,
+    { type: "debug-clear" },
+    { destination: "ALL" },
+  );
+  await OBR.room.setMetadata({
+    [DEBUG_LOG_KEY]: [],
+  });
+}
+
 function bindUiEvents() {
   ui.refreshBtn?.addEventListener("click", () => {
     setStatus("Refreshing combat log...");
     void refreshFromRoom("Manual refresh").catch((error) => {
       console.warn("[Odyssey Combat Log] Unable to refresh log", error);
       setStatus(error?.message ?? "Unable to refresh combat log.");
+    });
+  });
+
+  ui.clearBtn?.addEventListener("click", () => {
+    setStatus("Clearing shared combat log...");
+    void clearSharedLog().catch((error) => {
+      console.warn("[Odyssey Combat Log] Unable to clear log", error);
+      setStatus(error?.message ?? "Unable to clear shared combat log.");
     });
   });
 }
@@ -180,6 +210,15 @@ OBR.onReady(async () => {
     OBR.broadcast.onMessage(DEBUG_BROADCAST_CHANNEL, (event) => {
       const payload = event?.data;
       if (!payload || typeof payload !== "object") return;
+
+      if (payload.type === "debug-clear") {
+        debugEntries = [];
+        setSyncState("Live clear");
+        setStatus("Shared combat log cleared.");
+        renderEntries();
+        return;
+      }
+
       if (payload.type !== "debug-entry") return;
 
       debugEntries = mergeDebugEntries([payload.entry], debugEntries);
@@ -189,7 +228,7 @@ OBR.onReady(async () => {
     });
 
     OBR.room.onMetadataChange((metadata) => {
-      debugEntries = mergeDebugEntries(metadata?.[DEBUG_LOG_KEY], debugEntries);
+      debugEntries = sanitizeDebugEntries(metadata?.[DEBUG_LOG_KEY]);
       setSyncState("Room update");
       setStatus("Room log updated.");
       renderEntries();
