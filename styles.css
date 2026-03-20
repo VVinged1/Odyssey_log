@@ -147,11 +147,43 @@ h1 {
   box-shadow: 0 18px 36px rgba(0, 0, 0, 0.3);
 }
 
+.menu-section {
+  margin-bottom: 12px;
+}
+
+.menu-label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.menu-value {
+  margin: 6px 0 10px;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.size-grid,
+.size-adjust-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.size-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 8px;
+}
+
+.size-adjust-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .menu-action {
   width: 100%;
   border: 1px solid rgba(255, 156, 156, 0.22);
   border-radius: 12px;
-  background: rgba(255, 156, 156, 0.08);
+  background: rgba(255, 255, 255, 0.06);
   color: var(--text);
   font: inherit;
   padding: 10px 12px;
@@ -159,11 +191,17 @@ h1 {
 }
 
 .menu-action:hover {
-  background: rgba(255, 156, 156, 0.14);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .danger-button {
   color: var(--danger);
+  border-color: rgba(255, 156, 156, 0.22);
+  background: rgba(255, 156, 156, 0.08);
+}
+
+.danger-button:hover {
+  background: rgba(255, 156, 156, 0.14);
 }
 
 .menu-note {
