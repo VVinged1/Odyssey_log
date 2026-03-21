@@ -6,6 +6,7 @@ const DEBUG_BROADCAST_CHANNEL = "com.codex.body-hp/debug";
 const ENTRY_LIMIT = 50;
 const POLL_INTERVAL_MS = 2000;
 const SIZE_STORAGE_KEY = "odyssey-combat-log/window-size";
+const VIEW_CUTOFF_STORAGE_KEY = "odyssey-combat-log/view-cutoff-id";
 const DEFAULT_WINDOW_SIZE = { width: 520, height: 780 };
 const COMPACT_WINDOW_SIZE = { width: 440, height: 640 };
 const LARGE_WINDOW_SIZE = { width: 660, height: 960 };
@@ -18,6 +19,8 @@ const MAX_WINDOW_HEIGHT = 1200;
 
 const ui = {
   refreshBtn: document.getElementById("refreshBtn"),
+  clearViewBtn: document.getElementById("clearViewBtn"),
+  restoreViewBtn: document.getElementById("restoreViewBtn"),
   clearBtn: document.getElementById("clearBtn"),
   sizeLabel: document.getElementById("sizeLabel"),
   sizeCompactBtn: document.getElementById("sizeCompactBtn"),
@@ -34,15 +37,18 @@ const ui = {
   viewerRole: document.getElementById("viewerRole"),
   lastSync: document.getElementById("lastSync"),
   emptyState: document.getElementById("emptyState"),
+  emptyTitle: document.getElementById("emptyTitle"),
+  emptyBody: document.getElementById("emptyBody"),
   logEntries: document.getElementById("logEntries"),
 };
 
-let debugEntries = [];
+let sharedEntries = [];
 let viewerName = "Unknown";
 let viewerRole = "PLAYER";
 let lastSyncLabel = "Not synced yet";
 let roomRefreshTimer = null;
 let windowSize = { ...DEFAULT_WINDOW_SIZE };
+let localViewCutoffId = 0;
 
 function escapeHtml(value) {
   return String(value)
@@ -152,6 +158,32 @@ function loadStoredWindowSize() {
   }
 }
 
+function saveViewCutoff() {
+  try {
+    window.localStorage.setItem(VIEW_CUTOFF_STORAGE_KEY, String(localViewCutoffId));
+  } catch (error) {
+    console.warn("[Odyssey Combat Log] Unable to store local view cutoff", error);
+  }
+}
+
+function loadStoredViewCutoff() {
+  try {
+    const raw = window.localStorage.getItem(VIEW_CUTOFF_STORAGE_KEY);
+    return Math.max(0, Number(raw) || 0);
+  } catch (error) {
+    console.warn("[Odyssey Combat Log] Unable to read local view cutoff", error);
+    return 0;
+  }
+}
+
+function getVisibleEntries() {
+  return sharedEntries.filter((entry) => Number(entry.id) > localViewCutoffId).slice(0, ENTRY_LIMIT);
+}
+
+function hasHiddenEntries() {
+  return sharedEntries.some((entry) => Number(entry.id) <= localViewCutoffId);
+}
+
 async function applyWindowSize(nextSize, label = "Window resized") {
   const normalized = normalizeWindowSize(nextSize?.width, nextSize?.height);
   await Promise.all([
@@ -173,22 +205,43 @@ function setSyncState(label) {
 function renderHeader() {
   ui.viewerName.textContent = viewerName;
   ui.viewerRole.textContent = viewerRole;
-  ui.entryCount.textContent = `${debugEntries.length} ${debugEntries.length === 1 ? "entry" : "entries"}`;
+  const visibleEntries = getVisibleEntries();
+  ui.entryCount.textContent = `${visibleEntries.length} ${visibleEntries.length === 1 ? "entry" : "entries"}`;
   ui.lastSync.textContent = lastSyncLabel;
+}
+
+function renderControlState() {
+  if (ui.clearViewBtn) {
+    ui.clearViewBtn.disabled = !getVisibleEntries().length;
+  }
+  if (ui.restoreViewBtn) {
+    ui.restoreViewBtn.disabled = !hasHiddenEntries();
+  }
 }
 
 function renderEntries() {
   renderWindowSize();
   renderHeader();
+  renderControlState();
+  const visibleEntries = getVisibleEntries();
 
-  if (!debugEntries.length) {
+  if (!visibleEntries.length) {
     ui.emptyState.hidden = false;
     ui.logEntries.innerHTML = "";
+    if (sharedEntries.length && hasHiddenEntries()) {
+      ui.emptyTitle.textContent = "Log view cleared";
+      ui.emptyBody.textContent =
+        "Current entries are hidden only on this client. New events will appear automatically, or use Restore View.";
+    } else {
+      ui.emptyTitle.textContent = "No combat entries yet";
+      ui.emptyBody.textContent =
+        "As soon as the main Odyssey extension rolls attacks or checks, the shared room log will appear here.";
+    }
     return;
   }
 
   ui.emptyState.hidden = true;
-  ui.logEntries.innerHTML = debugEntries
+  ui.logEntries.innerHTML = visibleEntries
     .map(
       (entry) => `
         <article class="entry-card">
@@ -204,8 +257,8 @@ function renderEntries() {
 }
 
 function haveEntriesChanged(nextEntries) {
-  if (debugEntries.length !== nextEntries.length) return true;
-  return debugEntries.some((entry, index) => entry.id !== nextEntries[index]?.id);
+  if (sharedEntries.length !== nextEntries.length) return true;
+  return sharedEntries.some((entry, index) => entry.id !== nextEntries[index]?.id);
 }
 
 async function refreshFromRoom(label = "Room refresh", options = {}) {
@@ -213,12 +266,45 @@ async function refreshFromRoom(label = "Room refresh", options = {}) {
   const metadata = await OBR.room.getMetadata();
   const nextEntries = sanitizeDebugEntries(metadata?.[DEBUG_LOG_KEY]);
   const changed = haveEntriesChanged(nextEntries);
-  debugEntries = nextEntries;
+  sharedEntries = nextEntries;
+  if (!sharedEntries.length && localViewCutoffId) {
+    localViewCutoffId = 0;
+    saveViewCutoff();
+  }
 
   if (quiet && !changed) return;
 
   setSyncState(label);
   setStatus("Connected to the shared Odyssey combat log.");
+  renderEntries();
+}
+
+function clearLocalView() {
+  if (!getVisibleEntries().length) {
+    setStatus("There are no visible combat entries to clear.");
+    return;
+  }
+
+  localViewCutoffId = Math.max(
+    localViewCutoffId,
+    ...sharedEntries.map((entry) => Number(entry.id) || 0),
+  );
+  saveViewCutoff();
+  setSyncState("Local view cleared");
+  setStatus("Log output cleared locally. New entries will still appear.");
+  renderEntries();
+}
+
+function restoreLocalView() {
+  if (!hasHiddenEntries()) {
+    setStatus("There are no hidden combat entries to restore.");
+    return;
+  }
+
+  localViewCutoffId = 0;
+  saveViewCutoff();
+  setSyncState("View restored");
+  setStatus("Hidden combat entries restored to this client.");
   renderEntries();
 }
 
@@ -228,7 +314,7 @@ async function clearSharedLog() {
     return;
   }
 
-  debugEntries = [];
+  sharedEntries = [];
   setSyncState("Log cleared");
   setStatus("Shared Odyssey combat log cleared.");
   renderEntries();
@@ -250,6 +336,14 @@ function bindUiEvents() {
       console.warn("[Odyssey Combat Log] Unable to refresh log", error);
       setStatus(error?.message ?? "Unable to refresh combat log.");
     });
+  });
+
+  ui.clearViewBtn?.addEventListener("click", () => {
+    clearLocalView();
+  });
+
+  ui.restoreViewBtn?.addEventListener("click", () => {
+    restoreLocalView();
   });
 
   ui.clearBtn?.addEventListener("click", () => {
@@ -331,6 +425,7 @@ OBR.onReady(async () => {
     viewerName = name ?? viewerName;
     viewerRole = role ?? viewerRole;
     windowSize = loadStoredWindowSize();
+    localViewCutoffId = loadStoredViewCutoff();
 
     bindUiEvents();
     renderWindowSize();
@@ -349,7 +444,9 @@ OBR.onReady(async () => {
       if (!payload || typeof payload !== "object") return;
 
       if (payload.type === "debug-clear") {
-        debugEntries = [];
+        sharedEntries = [];
+        localViewCutoffId = 0;
+        saveViewCutoff();
         setSyncState("Live clear");
         setStatus("Shared combat log cleared.");
         renderEntries();
@@ -358,14 +455,18 @@ OBR.onReady(async () => {
 
       if (payload.type !== "debug-entry") return;
 
-      debugEntries = mergeDebugEntries([payload.entry], debugEntries);
+      sharedEntries = mergeDebugEntries([payload.entry], sharedEntries);
       setSyncState("Live event");
       setStatus("Received a live Odyssey combat event.");
       renderEntries();
     });
 
     OBR.room.onMetadataChange((metadata) => {
-      debugEntries = sanitizeDebugEntries(metadata?.[DEBUG_LOG_KEY]);
+      sharedEntries = sanitizeDebugEntries(metadata?.[DEBUG_LOG_KEY]);
+      if (!sharedEntries.length && localViewCutoffId) {
+        localViewCutoffId = 0;
+        saveViewCutoff();
+      }
       setSyncState("Room update");
       setStatus("Room log updated.");
       renderEntries();
